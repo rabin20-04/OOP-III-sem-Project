@@ -1,5 +1,5 @@
 <h1>Shrelok C++ Project - Third Semester</h1>
-<p><span style="font-size: 32px; font-weight: bold;">W</span>elcome to the Shrelok C++ Project repository. This project is part of our coursework for the third semester and focuses on advanced C++ programming concepts. Our team, Shrelok, has developed a series of solutions and applications to demonstrate our understanding and skills in C++.</p>
+<span style="font-size: 32px; font-weight: bold;">W</span>elcome to the Shrelok C++ Project repository. This project is part of our coursework for the third semester and focuses on advanced C++ programming concepts. Our team, Shrelok, has developed a series of solutions and applications to demonstrate our understanding and skills in C++.
 
 
 <h1>Project Overview</h1>
