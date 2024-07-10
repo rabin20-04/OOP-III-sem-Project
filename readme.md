@@ -42,7 +42,8 @@ then there are separate branch for all of us
  Enter the following
 
 ```
-git checkout -b branch_yourname
+git checkout branch_yourname
+
 ```
 
 for example
