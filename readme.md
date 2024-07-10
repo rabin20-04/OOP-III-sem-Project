@@ -75,3 +75,11 @@ git checkout branch_yourname
 eg git checkout branch_rabin
 
 ```  
+
+
+<h1>last</h1>
+<h2>Make sure your folder remain updated everyday so enter the following command  everyday </h2>
+
+```
+ git pull origin main
+ ```
