@@ -12,6 +12,7 @@ To get started with this project, clone the repository to your local machine usi
 git clone https://github.com/rabin20-04/Sherlock.git
 
 ```
+to look everyones branch-names ![alt text](image.png)
 
 
 <h1>GuYz</h1>
