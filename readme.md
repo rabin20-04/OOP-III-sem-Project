@@ -61,15 +61,21 @@ to checck
 ```
 git branch 
 ```
-if it not showing 
+if it not showing yourname in blue color make sure to switch to your branch
 ```
-yourname in blue color make sure to switch to your branch
+
 
 git checkout branch_yourname
 
 eg git checkout branch_rabin
 
-```  
+```
+to view all the branches in our whole project
+```
+git fetch --a
+//then to view them all
+git branch -a
+```
 
 
 <h1>last and Most important</h1>
