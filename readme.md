@@ -19,7 +19,7 @@ git clone https://github.com/rabin20-04/Sherlock.git
 
 ```
 
-after cloning is finished
+after cloning is finished in the command prompt or terminal you currently are
 enter
 
 ```
