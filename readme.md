@@ -6,13 +6,7 @@ This repository contains the code and documentation for our third-semester C++ p
 
 <h1>Getting Started</h1>
 
-To get started with this project, clone the repository to your local machine using the following command:
 
-```
-git clone https://github.com/rabin20-04/Sherlock.git
-
-```
-to look everyones branch-names ![alt text](image.png)
 
 
 <h1>GuYz</h1>
