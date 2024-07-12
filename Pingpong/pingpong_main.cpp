@@ -1,5 +1,9 @@
-#include<iostream>
+//yo arko version ko ho where there been no use of the GUI
 
+
+// I have left it so may be I could work on it later for better unnderstanding of the project
+
+#include<iostream>
 using namespace std;
 enum eDir { STOP = 0, LEFT =1, UPLEFT =2, DOWNLEFT=3, RIGHT=4, UPRIGHT=5, DOWNRIGHT=6};
 //enum is the just a way to store the value
