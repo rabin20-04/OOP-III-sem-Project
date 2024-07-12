@@ -47,7 +47,7 @@ for example
 ```
 git checkout -b branch_rabin
 ```
-make sure you always commit before pushing 
+Make sure you always commit before pushing 
 ```
 git commit -m "some_message"
 ```
