@@ -1,6 +1,9 @@
 #include <iostream>
 #include <raylib.h> /// Raylib is a library for making games
 
+Color SkyBlue = Color(102, 191, 255, 255);
+Color DarkBlue = Color(0, 82, 172, 255);
+Color Violet = Color(135, 60, 190, 255);
 using namespace std;
 int player_score = 0;
 int cpu_score = 0;
@@ -14,7 +17,7 @@ public:
 
     void Draw()
     {
-        DrawCircle(x, y, radius, WHITE);
+        DrawCircle(x, y, radius,Violet);
     }
 
     // function to move the ball
@@ -27,17 +30,25 @@ public:
         {                  // checking if the ball touch the bottom or top of the screen
             speed_y *= -1; // changing the direction of the ball in y direction
 
-            if (x + radius >= GetScreenWidth())
+            if (x + radius >= GetScreenWidth()){
                 cpu_score++; // computer wins
+                resetball();
+            }
+                
 
-            if (x - radius <= 0)
+            if (x - radius <= 0){
                 player_score++; // for left and right side obstruction
 
-            if (x + radius >= GetScreenWidth() || x - radius <= 0) // checking if the ball touch the left or right side of the screen
-            {
-                speed_x *= -1; // changing the direction of the ball in x direction
-            }
+            resetball();  }          
         }
+    }
+
+    void resetball(){
+        x = GetScreenWidth() / 2;
+        y = GetScreenHeight() / 2;
+        speed_x *= -1;
+        speed_y *= -1;
+    
     }
 };
 
@@ -64,7 +75,7 @@ public:
 
     void Draw()
     {
-        DrawRectangle(x, y, width, height, WHITE);
+    DrawRectangleRounded(Rectangle{x, y, width,height}, 0.8,0, WHITE);
     }
 
     void move()
@@ -146,8 +157,10 @@ int main()
     {                   // the game will run until window function get false value either from windows close or esc key
         BeginDrawing(); // this function creates a blankcanvas so that we can starting drawinng
 
-        ClearBackground(BLACK); // this function will clear the background of the canvas and set it to black
+        ClearBackground(DarkBlue); // this function will clear the background of the canvas and set it to black
 
+        DrawRectangle(screenWidth / 2, 0, 2, screenHeight, WHITE); // x y width height color
+        DrawCircle(screenWidth / 2, screenHeight / 2, 8, SkyBlue);    // x y radius color
         ball.move();
         // remember that the coordinate system in raylib starts from the top left corner of the screen updown :y side: x
         player.move();
@@ -166,7 +179,7 @@ int main()
         player.Draw();
         cpu.Draw();
         DrawText(TextFormat("%i", cpu_score), screenWidth / 4 - 20, 20, 80, WHITE); // text x y font size color
-        DrawText(TextFormat("%i", player_score), screenWidth - 20, 20, 80, WHITE);  // text x y font size color
+        DrawText(TextFormat("%i", player_score), 3*screenWidth/4 - 20, 20, 80, WHITE);  // text x y font size color
 
         DrawRectangle(12, screenHeight / 2 - 60, 25, 120, WHITE); // x y width height color
 
