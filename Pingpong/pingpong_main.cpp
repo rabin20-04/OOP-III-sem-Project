@@ -1,9 +1,10 @@
 #include <iostream>
 #include <raylib.h> /// Raylib is a library for making games
 
-Color SkyBlue = Color(102, 191, 255, 255);
-Color DarkBlue = Color(0, 82, 172, 255);
-Color Violet = Color(135, 60, 190, 255);
+Color SkyBlue = Color{102, 191, 255, 255};
+Color DarkBlue = Color{0, 82, 172, 255};
+Color Violet = Color{135, 60, 190, 255};
+Color DarkGreen = Color{0, 128, 0, 255};
 using namespace std;
 int player_score = 0;
 int cpu_score = 0;
@@ -17,7 +18,7 @@ public:
 
     void Draw()
     {
-        DrawCircle(x, y, radius,Violet);
+        DrawCircle(x, y, radius,WHITE);
     }
 
     // function to move the ball
@@ -75,7 +76,7 @@ public:
 
     void Draw()
     {
-    DrawRectangleRounded(Rectangle{x, y, width,height}, 0.8,0, WHITE);
+    DrawRectangleRounded(Rectangle{x, y, width,height}, 0.8,0, DarkBlue);
     }
 
     void move()
@@ -153,14 +154,19 @@ int main()
     cpu.y = screenHeight / 2 - cpu.height / 2;
     cpu.speed = 6;
 
-    while (WindowShouldClose() == false)
-    {                   // the game will run until window function get false value either from windows close or esc key
+    while (WindowShouldClose() == false)//// the game will run until window function get false value either from windows close or esc key
+    {                   
+
+
+
+
         BeginDrawing(); // this function creates a blankcanvas so that we can starting drawinng
 
-        ClearBackground(DarkBlue); // this function will clear the background of the canvas and set it to black
+        ClearBackground(SkyBlue); // this function will clear the background of the canvas and set it to black
 
+        
         DrawRectangle(screenWidth / 2, 0, 2, screenHeight, WHITE); // x y width height color
-        DrawCircle(screenWidth / 2, screenHeight / 2, 8, SkyBlue);    // x y radius color
+        DrawCircle(screenWidth / 2, screenHeight / 2, 90, DarkBlue);    // x y radius color
         ball.move();
         // remember that the coordinate system in raylib starts from the top left corner of the screen updown :y side: x
         player.move();
@@ -173,19 +179,26 @@ int main()
           if(CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height}))
           { ball.speed_x *= -1;
           }
+
+
+
+          // slide  and middle lines for the game interface
         DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE); // x1 y1 x2 y2 color
+         DrawLine(2, 2, screenWidth , 2, WHITE); // x1 y1 x2 y2 color
+                  DrawLine(0, screenHeight-2, screenWidth, screenHeight-2, WHITE); // x1 y1 x2 y2 color
+
+
 
         ball.Draw();
         player.Draw();
         cpu.Draw();
-        DrawText(TextFormat("%i", cpu_score), screenWidth / 4 - 20, 20, 80, WHITE); // text x y font size color
-        DrawText(TextFormat("%i", player_score), 3*screenWidth/4 - 20, 20, 80, WHITE);  // text x y font size color
-
-        DrawRectangle(12, screenHeight / 2 - 60, 25, 120, WHITE); // x y width height color
+        DrawText(TextFormat("CPU:%i", cpu_score), screenWidth / 4 - 20, 20, 50, WHITE); // text x y font size color
+        DrawText(TextFormat("YOU:%i", player_score), 3*screenWidth/4 - 20, 20, 50, WHITE);  // text x y font size colo
 
         EndDrawing(); // this function will end the drawing and display the canva
     }
 
     CloseWindow();
     return 0;
+
 }
