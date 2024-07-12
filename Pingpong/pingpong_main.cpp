@@ -2,6 +2,8 @@
 #include <raylib.h> /// Raylib is a library for making games
 
 using namespace std;
+int player_score = 0;
+int cpu_score = 0;
 
 class Ball
 {
@@ -25,17 +27,25 @@ public:
         speed_y*=-1; //changing the direction of the ball in y direction
 
 
-        if (x+radius>=GetScreenWidth() || x-radius<=0) { // for left and right side obstruction
-            speed_x*=-1;
-        }
+
+        if (x+radius>=GetScreenWidth())  cpu_score++;//computer wins
+        
+    
+
+         if(x-radius<=0)  player_score++;// for left and right side obstruction
+        
+          if (x+radius>=GetScreenWidth() || x-radius<=0) // checking if the ball touch the left or right side of the screen  
+          {
+            speed_x*=-1; //changing the direction of the ball in x direction
+          }  
+           
+    
             
-        }
+        
     }
 };
 
-class Paddle{
-    protected:
-    void avoidObstruction(){
+class Paddle{avoidObstruction(){
 
      if (y <= 0)
         {
@@ -46,6 +56,9 @@ class Paddle{
             y = GetScreenHeight() - height;
         }
 }
+
+    protected:
+
 
 public:
     float x, y;
@@ -77,7 +90,7 @@ class cpuPaddle: public Paddle
 {
 
     public:
-    void move(int bally)
+    void move(bally)
     {
         if (y + height/2 < bally)
         {
@@ -96,7 +109,7 @@ class cpuPaddle: public Paddle
         {
             y = GetScreenHeight() - height;
         }
-        avoidObstruction();
+        avoidobstruction();
     }
 
 };
@@ -145,11 +158,22 @@ ClearBackground(BLACK); // this function will clear the background of the canvas
         // remember that the coordinate system in raylib starts from the top left corner of the screen updown :y side: x
 player.move();
 cpu.move(ball.y);
+
+
+
+//check for the colloision between the ball and the player
+if (CheckCollisionCircleRec({ball.x, ball.y, ball.radius}, {player.x, player.y, player.width, player.height}) || CheckCollisionCircleRec({ball.x, ball.y, ball.radius}, {cpu.x, cpu.y, cpu.width, cpu.height}))
+{
+    ball.speed_x *= -1;
+}
         DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE); // x1 y1 x2 y2 color
 
         ball.Draw();
         player.Draw();
         cpu.Draw();
+        DrawText(FormatText("%i",cpu_score), screenWidth /4- 20, 20, 80, WHITE); // text x y font size color
+                DrawText(FormatText("%i",player_score), screenWidth - 20, 20, 80, WHITE); // text x y font size color
+
        
         DrawRectangle(12, screenHeight / 2 - 60, 25, 120, WHITE); // x y width height color
 
