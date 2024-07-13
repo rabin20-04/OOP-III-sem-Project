@@ -3,7 +3,6 @@
 
 Color SkyBlue = Color{102, 191, 255, 255};
 Color DarkBlue = Color{0, 82, 172, 255};
-Color Violet = Color{135, 60, 190, 255};
 Color DarkGreen = Color{0, 128, 0, 255};
 using namespace std;
 int player_score = 0;
@@ -26,21 +25,27 @@ public:
     {
         x += speed_x;
         y += speed_y;
+        Sound lose =  LoadSound("resources/lose.wav");
+        Sound win =  LoadSound("resources/win.wav");
 
         if (y + radius >= GetScreenHeight() || y - radius <= 0)
         {                  // checking if the ball touch the bottom or top of the screen
             speed_y *= -1; // changing the direction of the ball in y direction
 
             if (x + radius >= GetScreenWidth()){
+                PlaySound(lose);
                 cpu_score++; // computer wins
                 resetball();
+                // UnloadSound(lose);
             }
                 
 
             if (x - radius <= 0){
-                player_score++; // for left and right side obstruction
-
-            resetball();  }          
+                PlaySound(win);
+                player_score++; 
+            resetball(); 
+            // UnloadSound(win); 
+            }          
         }
     }
 
@@ -153,11 +158,11 @@ int main()
     cpu.height = 120;
     cpu.x = 12;
     cpu.y = screenHeight / 2 - cpu.height / 2;
-    cpu.speed = 6;
+    cpu.speed = 1;
 
 //loading of the sound
 Sound strike = LoadSound("resources/strike.wav");
-Sound lose =  LoadSound("resources/lose.wav");
+
     while (WindowShouldClose() == false)//// the game will run until window function get false value either from windows close or esc key
     {                   
 
