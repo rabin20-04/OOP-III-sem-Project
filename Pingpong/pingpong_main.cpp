@@ -1,5 +1,7 @@
 #include <iostream>
 #include <raylib.h> /// Raylib is a library for making games
+#include<fstream>
+#include<string.h>
 
 Color SkyBlue = Color{102, 191, 255, 255};
 Color DarkBlue = Color{0, 82, 172, 255};
@@ -137,9 +139,26 @@ int main()
     cout << "Starting the game" << endl;
     const int screenWidth = 1280;
     const int screenHeight = 720;
+    int highscore;
+
+    fstream file("highscore.txt",ios::in | ios::out);
+
+     // Check if the file opened successfully
+    if (!file) {
+        cerr << "File could not be opened!" << endl;
+        return 1;
+    }
+    file>>highscore;
+     // Check if reading was successful
+    if (!file) {
+        cerr << "Error reading the number from the file!" << endl;
+        file.close();
+        return 1;
+    }
+    file.close();
+
     InitWindow(screenWidth, screenHeight, "Ping Pong");
     InitAudioDevice();
-
     SetTargetFPS(60); // this function will set the frame rate of the game to 60 frames per second
     // if we didn't set the frame rate the game will run as fast as the computer can handle
 
@@ -159,7 +178,7 @@ int main()
     cpu.height = 120;
     cpu.x = 12;
     cpu.y = screenHeight / 2 - cpu.height / 2;
-    cpu.speed = 1;
+    cpu.speed = 3;
 
     // loading of the sound
     Sound strike = LoadSound("resources/strike.wav");
@@ -199,11 +218,27 @@ int main()
         player.Draw();
         cpu.Draw();
         DrawText(TextFormat("CPU:%i", cpu_score), screenWidth / 4 - 20, 20, 50, WHITE);        // text x y font size color
-        DrawText(TextFormat("YOU:%i", player_score), 3 * screenWidth / 4 - 20, 20, 50, WHITE); // text x y font size colo
+        DrawText(TextFormat("YOU:%i", player_score), 900, 20, 50, WHITE); // text x y font size color
+            DrawText(TextFormat("HighScore:%i", highscore), screenWidth-190, 20, 30, WHITE); // text x y font size color
 
         EndDrawing(); // this function will end the drawing and display the canva
+
+          if (player_score > highscore) {
+    highscore = player_score;
+    // Open the file in write mode
+    ofstream file("highscore.txt",ios::out | ios::trunc);
+    if (file.is_open()) {
+        // Write the updated high score
+        file << highscore;
+        file.close();
+    } else {
+        // Handle error if file cannot be opened
+        cerr << "Unable to open file for writing." <<endl;
+    }
+}
     }
     CloseAudioDevice();
     CloseWindow();
+   
     return 0;
 }
