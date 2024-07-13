@@ -132,6 +132,7 @@ int main()
     const int screenWidth = 1280;
     const int screenHeight = 720;
     InitWindow(screenWidth, screenHeight, "Ping Pong");
+    InitAudioDevice();
 
     SetTargetFPS(60); // this function will set the frame rate of the game to 60 frames per second
     // if we didn't set the frame rate the game will run as fast as the computer can handle
@@ -154,6 +155,9 @@ int main()
     cpu.y = screenHeight / 2 - cpu.height / 2;
     cpu.speed = 6;
 
+//loading of the sound
+Sound strike = LoadSound("resources/strike.wav");
+Sound lose =  LoadSound("resources/lose.wav");
     while (WindowShouldClose() == false)//// the game will run until window function get false value either from windows close or esc key
     {                   
 
@@ -175,9 +179,11 @@ int main()
         // check for the colloision between the ball and the player
        if(CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{player.x, player.y, player.width, player.height}))
           { ball.speed_x *= -1;
+          PlaySound(strike);
           }
           if(CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height}))
           { ball.speed_x *= -1;
+           PlaySound(strike);
           }
 
 
@@ -197,7 +203,7 @@ int main()
 
         EndDrawing(); // this function will end the drawing and display the canva
     }
-
+CloseAudioDevice();
     CloseWindow();
     return 0;
 
