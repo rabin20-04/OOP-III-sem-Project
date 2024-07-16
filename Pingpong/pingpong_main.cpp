@@ -2,7 +2,8 @@
 #include <raylib.h> /// Raylib is a library for making games
 #include <fstream>
 #include <string.h>
-
+#include <thread>
+#include <chrono>
 Color SkyBlue = Color{102, 191, 255, 255};
 Color DarkBlue = Color{0, 82, 172, 150};
 Color DarkGreen = Color{0, 128, 0, 255};
@@ -80,7 +81,7 @@ protected:
 public:
     float x, y;
     int speed;
-    int width, height;
+    float width, height;
 
     void Draw()
     {
@@ -187,9 +188,9 @@ int main()
 
     // loading of the sound
     Sound strike = LoadSound("resources/strike.wav");
+    Sound celebration= LoadSound("resources/celebration.wav");
 
-    while (!WindowShouldClose()) // this function will return true if the window is closed
-    {
+   
         while (!WindowShouldClose()) // this function will return true if the window is closed
 
         {
@@ -264,23 +265,27 @@ if (life == 0) {
         }
 
 
-           
+
+while (!WindowShouldClose()){           
         BeginDrawing();
         ClearBackground(SkyBlue);
         if (player_score > temhighscore)
         {
-              Sound celebration= LoadSound("resources/celebration.wav");
             DrawText("Congratulations! You have gain the highscore", screenWidth / 6, screenHeight/2, 45, WHITE); // text x y font size color
-                        DrawText(TextFormat("Previous Score:%i",temhighscore), screenWidth / 6, 460, 45, WHITE); // text x y font size color
-                         PlaySound(celebration);
+                        DrawText(TextFormat("Previous Score HighScore:%i",temhighscore), screenWidth / 6, 460, 45, WHITE); // text x y font size color
+                         //this_thread::sleep_for(chrono::seconds(3));// sleep for 3 seconds
+                          PlaySound(celebration);
+                           
+    EndDrawing();
 
         }
         else
         {
             DrawText("Game Over ", screenWidth / 6, screenHeight/2 , 60, WHITE);
-        }
-        DrawText(TextFormat("Your Score:%i", player_score), screenWidth / 6, 560, 60, WHITE);
+             DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 560, 60, WHITE);
         EndDrawing();
+        }
+       
     }
     CloseAudioDevice();
 
