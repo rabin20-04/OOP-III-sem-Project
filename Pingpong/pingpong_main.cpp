@@ -62,6 +62,7 @@ public:
     }
 };
 
+
 class Paddle
 {
 protected:
@@ -187,8 +188,9 @@ int main()
     cpu.speed = 3;
 
     // loading of the sound
-    Sound strike = LoadSound("resources/strike.wav");
-    Sound celebration= LoadSound("resources/celebration.wav");
+    Sound strike = LoadSound("resources/strike.wav");\
+    Sound celebration = LoadSound("resources/celebration.wav");
+   
 
    
         while (!WindowShouldClose()) // this function will return true if the window is closed
@@ -234,7 +236,7 @@ if (life == 0) {
             DrawText(TextFormat("CPU:%i", cpu_score), screenWidth / 4 - 20, 20, 50, WHITE);    // text x y font size color
             DrawText(TextFormat("YOU:%i", player_score), 900, 20, 50, WHITE);                  // text x y font size color
             DrawText(TextFormat("HighScore:%i", highscore), screenWidth - 190, 20, 30, WHITE); // text x y font size color
-            if (newcpu_score != cpu_score)
+            if(newcpu_score != cpu_score)
             {
                 life = life - 1;
                 cpu_score = newcpu_score;
@@ -271,24 +273,27 @@ while (!WindowShouldClose()){
         ClearBackground(SkyBlue);
         if (player_score > temhighscore)
         {
-            DrawText("Congratulations! You have gain the highscore", screenWidth / 6, screenHeight/2, 45, WHITE); // text x y font size color
+            DrawText("Congratulations! You have gain the highscore", screenWidth / 6, screenHeight/2, 45, DarkBlue); // text x y font size color
                         DrawText(TextFormat("Previous Score HighScore:%i",temhighscore), screenWidth / 6, 460, 45, WHITE); // text x y font size color
-                         //this_thread::sleep_for(chrono::seconds(3));// sleep for 3 seconds
-                          PlaySound(celebration);
+                         DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 560, 60, BLACK);
+                        
                            
     EndDrawing();
 
         }
         else
         {
-            DrawText("Game Over ", screenWidth / 6, screenHeight/2 , 60, WHITE);
-             DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 560, 60, WHITE);
+            DrawText("Game Over ", screenWidth / 6, screenHeight/2 , 60, DarkBlue);
+             DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 560, 60, BLACK);
+             this_thread::sleep_for(chrono::seconds(3));
+             PlaySound(celebration);
         EndDrawing();
         }
        
     }
     CloseAudioDevice();
-
+    UnloadSound(celebration);//unloading the sound to free the memory
+    UnloadSound(strike);
     CloseWindow();
 
     return 0;
