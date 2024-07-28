@@ -11,12 +11,7 @@ This repository contains the code and documentation for our third-semester C++ p
 
 <h1>GuYz</h1>
 to get started
-<<<<<<< HEAD
 create a folder anywhere in your file explorer then right click and open command prompt or terminal whichever is showing in you pc
-=======
-create a folder anywhere in your file explorer then right click and open command prompt or terminal whichever is showing in your pc
-Then 
->>>>>>> 1f15303 (readme)
 paste
 
 ```
