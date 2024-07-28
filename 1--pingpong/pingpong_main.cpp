@@ -1,301 +1,277 @@
 #include <iostream>
-#include <raylib.h> /// Raylib is a library for making games
-#include <fstream>
-#include <string.h>
-#include <thread>
-#include <chrono>
-Color SkyBlue = Color{102, 191, 255, 255};
-Color DarkBlue = Color{0, 82, 172, 150};
-Color DarkGreen = Color{0, 128, 0, 255};
+#include <raylib.h> /// Raylib is a library for making game
+
 using namespace std;
-int player_score = 0;
-int cpu_score = 0;
 
-class Ball
-{
+Color Green = Color{38, 184, 155 , 255};
+Color Blue = Color{20, 60, 130, 255};
+Color DarkBlue  = Color{15, 50, 100, 255};
+Color LightGreen = Color{0, 127, 255 ,255};
+Color Yellow= Color{243 , 213 , 91, 255};
+
+
+
+class ball{
+float x,y ;
+float speed_x,speed_y;
+int r=15;
+int player ,cpu;
+
 public:
-    float x, y;
-    int speed_x, speed_y;
-    int radius;
-    //there is nothing to return so we use void
+ball(){}
+ball(float a,float b){
+    x=a;
+    y=b;
+    speed_x=6;
+    speed_y=6;
+    player = 0;
+    cpu = 0;
+    
+}
+void Draw(){
 
-    void Draw()
-    {
-        DrawCircle(x, y, radius, WHITE);
+DrawCircle(x,y,r,WHITE);
+
+}
+
+void update(){
+  x+=speed_x;
+  y+=speed_y;
+
+    if(y+r>= GetScreenHeight() || y-r<=0){
+    speed_y*=-1.05;
+
     }
 
-    // function to move the ball
-    void move()
-    {
-        x += speed_x;
-        y += speed_y;
-        Sound lose = LoadSound("resources/lose.wav");
-        Sound win = LoadSound("resources/win.wav");
+    if(x+r>= GetScreenWidth()){
 
-        if (y + radius >= GetScreenHeight() || y - radius <= 0)
-        {                  // checking if the ball touch the bottom or top of the screen
-            speed_y *= -1; // changing the direction of the ball in y direction
+         cpu++;
+         resetball();
 
-            if (x + radius >= GetScreenWidth())
-            {
-                PlaySound(lose);
-                cpu_score++; // computer wins
-                resetball();
-               
-            }
-
-            if (x - radius <= 0)
-            {
-                PlaySound(win);
-                player_score++;
-                resetball();
-                
-            }
-        }
     }
 
-    void resetball()
-    {
+
+    if ( x-r<=0){
+    
+         player++;
+         resetball();
+
+    }
+}
+
+     void colli(){
+
+        speed_x*=-1;
+     }
+
+     //posion of ball in x and y  in return type
+    float ballpy(){
+    
+      return y;
+     }
+
+    float ballpx(){
+    
+       return x;
+      }
+
+     //radius of ball
+    float ballpr(){
+    
+        return r;
+     }
+
+
+    int players (){
+
+       return player;
+      
+     }
+    int cpus (){
+
+       return cpu;
+      
+      }
+
+    void resetball(){
         x = GetScreenWidth() / 2;
         y = GetScreenHeight() / 2;
-        speed_x *= -1;
-        speed_y *= -1;
+        int speed_choices[2]={-1,1};
+        speed_x *= speed_choices[GetRandomValue(0,1)] ;
+        speed_y = 6* speed_choices[GetRandomValue(0,1)] ;
     }
+
+
 };
 
-class Paddle
-{
-protected:
-    void avoidObstruction()
-    {
+class cpu;
 
-        if (y <= 0)
-        {
-            y = 0;
-        }
-        if (y + height >= GetScreenHeight())
-        {
-            y = GetScreenHeight() - height;
-        }
-    }
+class paddle{
+    protected:
+
+float x,y;
+float width,height;
+int speed;
 
 public:
-    float x, y;
-    int speed;
-    float width, height;
 
-    void Draw()
-    {
-        DrawRectangleRounded(Rectangle{x, y, width, height}, 0.8, 0, DarkBlue);
+paddle(){}
+paddle( float a, float b,float w, float h){
+    x=a;
+    y=b;
+    width=w;
+    height=h;
+    speed=6;
+
+}
+void Draw(){
+
+        DrawRectangleRounded(Rectangle{x,y,width,height}, 0.8, 0,Green);
+
+}
+void limit(){
+    if(y<=0){
+
+        y=0;
     }
 
-    void move()
-    {
-        if (IsKeyDown(KEY_UP))
-        {
-            y -= speed;
-        }
-        if (IsKeyDown(KEY_DOWN))
-        {
-            y += speed;
-        }
+    if(y+height >= GetScreenHeight() ){
 
-        avoidObstruction();
+        y=GetScreenHeight() -height;
     }
 
-    void celebrate(Sound celebration)
-    {
-        PlaySound(celebration);
 
-        this_thread::sleep_for(chrono::seconds(2));
+
+}
+
+void update(){
+    if (IsKeyDown(KEY_W)){
+
+        y=y-speed;
+
     }
+
+    if (IsKeyDown(KEY_S)){
+
+        y=y+speed;
+
+    }
+
+   limit();
+}
+
+//posion of paddie  in x and y  in return type
+float paddlepy(){
+    
+    return y;
+}
+float paddlepx(){
+    
+    return x;
+}
+float paddlewidth(){
+    
+    return width;
+}
+float paddleheight(){
+    
+
+    return height;
+}
+
 };
 
-class cpuPaddle : public Paddle
-{
+class cpu :public paddle{
 
-public:
-    void move(int bally)
-    {
-        if (y + height / 2 < bally)
-        {
-            y += speed;
-        }
-        if (y + height / 2 > bally)
-        {
-            y -= speed;
-        }
-
-        if (y <= 0)
-        {
-            y = 0;
-        }
-        if (y + height >= GetScreenHeight())
-        {
-            y = GetScreenHeight() - height;
-        }
-        avoidObstruction();
+    public:
+    cpu(){}
+    //using concept of constructor in single inheratance
+    cpu(float a, float b,float w,float h) :paddle (a,b,w,h){
+        /* x=a;
+         y=b;
+         width=w;
+         height=h;
+         speed=6;
+*/
     }
+
+    void update(float by){
+        if ( y+ height >= by){
+
+            y = y - speed;
+         }
+         else if (y + height <= by){
+
+            y = y + speed;
+         }
+
+        limit();
+    }
+
+
+
 };
-
-Ball ball;
-Paddle player;
-
-cpuPaddle cpu;
 
 int main()
-{
+{   
+    int  player_score , cpu_score;
+
+
     cout << "Starting the game" << endl;
-    const int screenWidth = 1280;
-    const int screenHeight = 720;
-    int highscore, newcpu_score;
-    int life = 2;
-    int temhighscore = 0;
+    const int swidth = 1200;
+    const int sheight = 700;
+    InitWindow(swidth, sheight, "Ping Pong");
+    SetTargetFPS(60);
 
-    fstream file("highscore.txt", ios::in | ios::out);
+    //object define
+    ball b(swidth/2,sheight/2);
 
-    // Check if the file opened successfully
-    if (!file)
+    paddle p(swidth-35,sheight/2-50,25,120);
+
+    cpu c(10,sheight/2-50,25,120);
+    
+    //game loop start 
+while (WindowShouldClose() ==false){
+    BeginDrawing();
+
+    //updating
+    b.update();
+    c.update(b.ballpy());
+    p.update();
+    player_score =b.players();
+    cpu_score = b.cpus();
+
+    //checking collisions
+    if(CheckCollisionCircleRec(Vector2{b.ballpx(), b.ballpy()}, b.ballpr(), Rectangle{ p.paddlepx(), p.paddlepy(), p.paddlewidth(), p.paddleheight()}))
     {
-        cerr << "File could not be opened!" << endl;
-        return 1;
+        b.colli();
+
     }
-    file >> highscore;
-    temhighscore = highscore;
-    // Check if reading was successful
-    if (!file)
+    if(CheckCollisionCircleRec(Vector2{b.ballpx(), b.ballpy()}, b.ballpr(), Rectangle{ c.paddlepx(), c.paddlepy(), c.paddlewidth(), c.paddleheight()}))
     {
-        cerr << "Error reading the number from the file!" << endl;
-        file.close();
-        return 1;
+        b.colli();
+
     }
-    file.close();
 
-    InitWindow(screenWidth, screenHeight, "Ping Pong");
-    InitAudioDevice();
-    SetTargetFPS(60); // this function will set the frame rate of the game to 60 frames per second
-    // if we didn't set the frame rate the game will run as fast as the computer can handle
+    //Drawing 
+    ClearBackground(DarkBlue);
 
-    ball.radius = 20;
-    ball.x = screenWidth / 2;
-    ball.y = screenHeight / 2;
-    ball.speed_x = 7;
-    ball.speed_y = 7;
+    DrawRectangle(swidth/2,0,swidth/2,sheight,Blue);
+    DrawCircle( swidth/2 , sheight /2 ,150 , LightGreen );
+    DrawLine(swidth/2,0,swidth/2,sheight, WHITE);
+    b.Draw();
+   // DrawRectangle(10,sheight/2-50,25,100,GREEN);
+    c.Draw();
+    p.Draw();
+    DrawLine(0,0,swidth,0,WHITE);
+    DrawLine(0,sheight,swidth,sheight,WHITE);
 
-    player.width = 25;
-    player.height = 120;
-    player.x = screenWidth - player.width - 12;
-    player.y = screenHeight / 2 - player.height / 2;
-    player.speed = 6;
+      DrawText(TextFormat("CPU:%i", cpu_score), swidth / 4 - 20, 20, 50, WHITE);    // text x y font size color
+      DrawText(TextFormat("YOU:%i", player_score), 900, 20, 50, WHITE);                  // text x y font size color
 
-    cpu.width = 25;
-    cpu.height = 120;
-    cpu.x = 12;
-    cpu.y = screenHeight / 2 - cpu.height / 2;
-    cpu.speed = 3;
-
-    // loading of the sound
-    Sound strike = LoadSound("resources/strike.wav");
-    Sound celebration= LoadSound("resources/celebration.wav");
-
-   
-        while (!WindowShouldClose()) // this function will return true if the window is closed
-
-        {
-
-if (life == 0) {
-            break;
-}
-           
-
-            BeginDrawing(); // this function creates a blankcanvas so that we can starting drawinng
-
-            ClearBackground(SkyBlue); // this function will clear the background of the canvas and set it to black
-
-            DrawRectangle(screenWidth / 2, 0, 2, screenHeight, WHITE);   // x y width height color
-            DrawCircle(screenWidth / 2, screenHeight / 2, 90, DarkBlue); // x y radius color
-            ball.move();
-            // remember that the coordinate system in raylib starts from the top left corner of the screen updown :y side: x
-            player.move();
-            cpu.move(ball.y);
-
-            // check for the colloision between the ball and the player
-            if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{player.x, player.y, player.width, player.height}))
-            {
-                ball.speed_x *= -1;
-                PlaySound(strike);
-            }
-            if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height}))
-            {
-                ball.speed_x *= -1;
-                PlaySound(strike);
-            }
-
-            // slide  and middle lines for the game interface
-            DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);  // x1 y1 x2 y2 color
-            DrawLine(2, 2, screenWidth, 2, WHITE);                               // x1 y1 x2 y2 color
-            DrawLine(0, screenHeight - 2, screenWidth, screenHeight - 2, WHITE); // x1 y1 x2 y2 color
-
-            ball.Draw();
-            player.Draw();
-            cpu.Draw();
-            DrawText(TextFormat("CPU:%i", cpu_score), screenWidth / 4 - 20, 20, 50, WHITE);    // text x y font size color
-            DrawText(TextFormat("YOU:%i", player_score), 900, 20, 50, WHITE);                  // text x y font size color
-            DrawText(TextFormat("HighScore:%i", highscore), screenWidth - 190, 20, 30, WHITE); // text x y font size color
-            if (newcpu_score != cpu_score)
-            {
-                life = life - 1;
-                cpu_score = newcpu_score;
-            }
-
-            DrawText(TextFormat("Life:%i", life), screenWidth - 190, 50, 30, WHITE);
-
-            EndDrawing(); // this function will end the drawing and display the canva
-
-             if (player_score >highscore)
-            {
-                highscore = player_score;
-                // Open the file in write mode
-                ofstream file("highscore.txt", ios::out | ios::trunc);
-                if (file.is_open())
-                {
-                    // Write the updated high score
-                    file << highscore;
-                    file.close();
-                }
-                else
-                {
-                    // Handle error if file cannot be opened
-                    cerr << "Unable to open file for writing." << endl;
-                }
-            }
-
-        }
-
-
-
-while (!WindowShouldClose()){           
-        BeginDrawing();
-        ClearBackground(SkyBlue);
-        if (player_score > temhighscore)
-        {
-            DrawText("Congratulations! You have gain the highscore", screenWidth / 6, screenHeight/2, 45, WHITE); // text x y font size color
-                        DrawText(TextFormat("Previous Score HighScore:%i",temhighscore), screenWidth / 6, 460, 45, WHITE); // text x y font size color
-                        DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 560, 60, WHITE);
-                         player.celebrate(celebration);
-                           
     EndDrawing();
 
-        }
-        else
-        {
-            DrawText("Game Over ", screenWidth / 6, screenHeight/2 , 60, WHITE);
-             DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 560, 60, WHITE);
-        EndDrawing();
-        }
-       
-    }
-    CloseAudioDevice();
+}
 
     CloseWindow();
 
