@@ -17,6 +17,8 @@ float speed_x,speed_y;
 int r=15;
 int player ,cpu;
 
+
+
 public:
 ball(){}
 ball(float a,float b){
@@ -34,6 +36,7 @@ DrawCircle(x,y,r,WHITE);
 
 }
 
+   
 void update(){
   x+=speed_x;
   y+=speed_y;
@@ -44,7 +47,8 @@ void update(){
     }
 
     if(x+r>= GetScreenWidth()){
-
+        Sound lose = LoadSound("resources/lose.wav");
+        PlaySound (lose);
          cpu++;
          resetball();
 
@@ -52,7 +56,8 @@ void update(){
 
 
     if ( x-r<=0){
-    
+         Sound win = LoadSound("resources/win.wav");
+         PlaySound (win);
          player++;
          resetball();
 
@@ -60,8 +65,13 @@ void update(){
 }
 
      void colli(){
-
+       
         speed_x*=-1;
+       Sound strike = LoadSound("resources/strike.wav");
+        PlaySound (strike);
+       
+        
+
      }
 
      //posion of ball in x and y  in return type
@@ -71,7 +81,7 @@ void update(){
      }
 
     float ballpx(){
-    
+     
        return x;
       }
 
@@ -145,13 +155,13 @@ void limit(){
 }
 
 void update(){
-    if (IsKeyDown(KEY_W)){
+    if (IsKeyDown(KEY_UP)){
 
         y=y-speed;
 
     }
 
-    if (IsKeyDown(KEY_S)){
+    if (IsKeyDown(KEY_DOWN)){
 
         y=y+speed;
 
@@ -195,7 +205,23 @@ class cpu :public paddle{
 */
     }
 
-    void update(float by){
+     void update(){
+    if (IsKeyDown(KEY_W)){
+
+        y=y-speed;
+
+    }
+
+    if (IsKeyDown(KEY_S)){
+
+        y=y+speed;
+
+    }
+
+      limit();
+   }
+
+    /*void update(float by){
         if ( y+ height >= by){
 
             y = y - speed;
@@ -207,7 +233,7 @@ class cpu :public paddle{
 
         limit();
     }
-
+  */
 
 
 };
@@ -221,6 +247,7 @@ int main()
     const int swidth = 1200;
     const int sheight = 700;
     InitWindow(swidth, sheight, "Ping Pong");
+    InitAudioDevice();
     SetTargetFPS(60);
 
     //object define
@@ -229,6 +256,8 @@ int main()
     paddle p(swidth-35,sheight/2-50,25,120);
 
     cpu c(10,sheight/2-50,25,120);
+
+
     
     //game loop start 
 while (WindowShouldClose() ==false){
@@ -236,7 +265,8 @@ while (WindowShouldClose() ==false){
 
     //updating
     b.update();
-    c.update(b.ballpy());
+    c.update();
+    //c.update(b.ballpy());
     p.update();
     player_score =b.players();
     cpu_score = b.cpus();
@@ -245,11 +275,15 @@ while (WindowShouldClose() ==false){
     if(CheckCollisionCircleRec(Vector2{b.ballpx(), b.ballpy()}, b.ballpr(), Rectangle{ p.paddlepx(), p.paddlepy(), p.paddlewidth(), p.paddleheight()}))
     {
         b.colli();
+    //      Sound strike = LoadSound("resources/strike.wav");
+    //      PlaySound( strike);
+    //       UnloadSound( strike);
 
-    }
+     }
     if(CheckCollisionCircleRec(Vector2{b.ballpx(), b.ballpy()}, b.ballpr(), Rectangle{ c.paddlepx(), c.paddlepy(), c.paddlewidth(), c.paddleheight()}))
     {
         b.colli();
+      
 
     }
 
@@ -266,13 +300,15 @@ while (WindowShouldClose() ==false){
     DrawLine(0,0,swidth,0,WHITE);
     DrawLine(0,sheight,swidth,sheight,WHITE);
 
-      DrawText(TextFormat("CPU:%i", cpu_score), swidth / 4 - 20, 20, 50, WHITE);    // text x y font size color
-      DrawText(TextFormat("YOU:%i", player_score), 900, 20, 50, WHITE);                  // text x y font size color
+      DrawText(TextFormat("player 1 :%i", cpu_score), swidth / 4 - 95, 20, 50, WHITE);    // text x y font size color
+      DrawText(TextFormat("player 2: %i", player_score),835 , 20, 50, WHITE);                  // text x y font size color
 
     EndDrawing();
 
-}
+    }
 
+   //UnloadSound( strike);
+    CloseAudioDevice();
     CloseWindow();
 
     return 0;
