@@ -14,8 +14,8 @@ Color Yellow= Color{243 , 213 , 91, 255};
 class ball{
 float x,y ;
 float speed_x,speed_y;
-int r=15;
-int player ,cpu;
+int r=20;
+int player ,cpu,round;
 
 
 
@@ -28,6 +28,7 @@ ball(float a,float b){
     speed_y=6;
     player = 0;
     cpu = 0;
+    round =1;
     
 }
 void Draw(){
@@ -50,6 +51,7 @@ void update(){
         Sound lose = LoadSound("resources/lose.wav");
         PlaySound (lose);
          cpu++;
+         round++;
          resetball();
 
     }
@@ -59,6 +61,7 @@ void update(){
          Sound win = LoadSound("resources/win.wav");
          PlaySound (win);
          player++;
+         round++;
          resetball();
 
     }
@@ -87,11 +90,10 @@ void update(){
 
      //radius of ball
     float ballpr(){
-    
         return r;
      }
 
-
+    //score return
     int players (){
 
        return player;
@@ -102,6 +104,12 @@ void update(){
        return cpu;
       
       }
+
+    int rounds(){
+
+        return round;
+    }
+
 
     void resetball(){
         x = GetScreenWidth() / 2;
@@ -124,7 +132,6 @@ float width,height;
 int speed;
 
 public:
-
 paddle(){}
 paddle( float a, float b,float w, float h){
     x=a;
@@ -240,7 +247,7 @@ class cpu :public paddle{
 
 int main()
 {   
-    int  player_score , cpu_score;
+    int  player1_score , player2_score;
 
 
     cout << "Starting the game" << endl;
@@ -253,9 +260,9 @@ int main()
     //object define
     ball b(swidth/2,sheight/2);
 
-    paddle p(swidth-35,sheight/2-50,25,120);
+    paddle p(swidth-35,sheight/2-50,25,130);
 
-    cpu c(10,sheight/2-50,25,120);
+    cpu c(10,sheight/2-50,25,130);
 
 
     
@@ -268,20 +275,23 @@ while (WindowShouldClose() ==false){
     c.update();
     //c.update(b.ballpy());
     p.update();
-    player_score =b.players();
-    cpu_score = b.cpus();
+    player1_score =b.players();
+    player2_score = b.cpus();
 
     //checking collisions
     if(CheckCollisionCircleRec(Vector2{b.ballpx(), b.ballpy()}, b.ballpr(), Rectangle{ p.paddlepx(), p.paddlepy(), p.paddlewidth(), p.paddleheight()}))
     {
-        b.colli();
-    //      Sound strike = LoadSound("resources/strike.wav");
-    //      PlaySound( strike);
-    //       UnloadSound( strike);
+    
+         Sound strike = LoadSound("resources/strike.wav");
+         PlaySound( strike);
+         b.colli();
 
      }
     if(CheckCollisionCircleRec(Vector2{b.ballpx(), b.ballpy()}, b.ballpr(), Rectangle{ c.paddlepx(), c.paddlepy(), c.paddlewidth(), c.paddleheight()}))
     {
+
+          Sound strike = LoadSound("resources/strike.wav");
+         PlaySound( strike);
         b.colli();
       
 
@@ -300,12 +310,22 @@ while (WindowShouldClose() ==false){
     DrawLine(0,0,swidth,0,WHITE);
     DrawLine(0,sheight,swidth,sheight,WHITE);
 
-      DrawText(TextFormat("player 1 :%i", cpu_score), swidth / 4 - 95, 20, 50, WHITE);    // text x y font size color
-      DrawText(TextFormat("player 2: %i", player_score),835 , 20, 50, WHITE);                  // text x y font size color
+      DrawText(TextFormat("player 1 :%i", player2_score), swidth / 4 - 95, 20, 50, WHITE);    // text x y font size color
+      DrawText(TextFormat("player 2: %i", player1_score),835 , 20, 50, WHITE);                  // text x y font size color
+
+      DrawText( "ROUND ",swidth/2-25 , sheight /2-70, 20, WHITE);
+
+       DrawText(TextFormat("%i",b.rounds()) ,swidth/2-25 , sheight /2-50, 100, WHITE);  
 
     EndDrawing();
 
-    }
+    
+
+    if (b.rounds()==5 ){
+
+   break;
+     }
+  }
 
    //UnloadSound( strike);
     CloseAudioDevice();

@@ -60,8 +60,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/Acer/Desktop/Raylib-CPP-Starter-Template-for-VSCODE",
-      "program": "c:/Users/Acer/Desktop/Raylib-CPP-Starter-Template-for-VSCODE/build/Debug/outDebug",
+      "cwd": "c:/Users/Acer/Desktop/Sherlock",
+      "program": "c:/Users/Acer/Desktop/Sherlock/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
