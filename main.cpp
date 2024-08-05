@@ -16,8 +16,8 @@ Color roun= Color{141 , 188 , 232 , 255};
 class ball{
 float x,y ;
 float speed_x,speed_y;
-int r=14;
-int player ,cpu,round;
+int r=12;
+int player1 ,player2,round;
 
 
 
@@ -28,8 +28,8 @@ ball(float a,float b){
     y=b;
     speed_x=6;
     speed_y=6;
-    player = 0;
-    cpu = 0;
+    player1 = 0;
+    player2 = 0;
     round =1;
     
 }
@@ -52,7 +52,7 @@ void update(){
     if(x+r>= GetScreenWidth()){
         Sound lose = LoadSound("resources/lose.wav");
         PlaySound (lose);
-         cpu++;
+         player2++;
          round++;
          resetball();
 
@@ -62,7 +62,7 @@ void update(){
     if ( x-r<=0){
          Sound win = LoadSound("resources/win.wav");
          PlaySound (win);
-         player++;
+         player1++;
          round++;
          resetball();
 
@@ -96,14 +96,14 @@ void update(){
      }
 
     //score return
-    int players (){
+    int player1r (){
 
-       return player;
+       return player1;
       
      }
-    int cpus (){
+    int player2r (){
 
-       return cpu;
+       return player2;
       
       }
 
@@ -124,7 +124,7 @@ void update(){
 
 };
 
-class cpu;
+class player2;
 
 class paddle{
     protected:
@@ -200,12 +200,12 @@ float paddleheight(){
 
 };
 
-class cpu :public paddle{
+class player2 :public paddle{
 
     public:
-    cpu(){}
+    player2(){}
     //using concept of constructor in single inheratance
-    cpu(float a, float b,float w,float h) :paddle (a,b,w,h){
+    player2(float a, float b,float w,float h) :paddle (a,b,w,h){
         /* x=a;
          y=b;
          width=w;
@@ -264,7 +264,7 @@ int main()
 
     paddle p(swidth-35,sheight/2-50,25,130);
 
-    cpu c(10,sheight/2-50,25,130);
+    player2 c(10,sheight/2-50,25,130);
 
 
     
@@ -282,8 +282,8 @@ while (WindowShouldClose() ==false){
     c.update();
     //c.update(b.ballpy());
     p.update();
-    player1_score =b.players();
-    player2_score = b.cpus();
+    player1_score =b.player1r();
+    player2_score = b.player2r();
 
     //checking collisions
     if(CheckCollisionCircleRec(Vector2{b.ballpx(), b.ballpy()}, b.ballpr(), Rectangle{ p.paddlepx(), p.paddlepy(), p.paddlewidth(), p.paddleheight()}))
