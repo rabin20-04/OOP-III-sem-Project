@@ -4,17 +4,19 @@
 using namespace std;
 
 Color Green = Color{38, 184, 155 , 255};
-Color Blue = Color{20, 60, 130, 255};
-Color DarkBlue  = Color{15, 50, 100, 255};
-Color LightGreen = Color{0, 127, 255 ,255};
+Color Blue = Color{45, 110, 230, 255};
+Color DarkBlue  = Color{25, 50, 180, 255};
+Color LightB = Color{72, 146, 220 ,255};
 Color Yellow= Color{243 , 213 , 91, 255};
+Color roun= Color{141 , 188 , 232 , 255};
+
 
 
 
 class ball{
 float x,y ;
 float speed_x,speed_y;
-int r=20;
+int r=14;
 int player ,cpu,round;
 
 
@@ -267,6 +269,11 @@ int main()
 
     
     //game loop start 
+
+
+
+
+    
 while (WindowShouldClose() ==false){
     BeginDrawing();
 
@@ -301,7 +308,7 @@ while (WindowShouldClose() ==false){
     ClearBackground(DarkBlue);
 
     DrawRectangle(swidth/2,0,swidth/2,sheight,Blue);
-    DrawCircle( swidth/2 , sheight /2 ,150 , LightGreen );
+    DrawCircle( swidth/2 , sheight /2 ,150 , LightB );
     DrawLine(swidth/2,0,swidth/2,sheight, WHITE);
     b.Draw();
    // DrawRectangle(10,sheight/2-50,25,100,GREEN);
@@ -313,9 +320,9 @@ while (WindowShouldClose() ==false){
       DrawText(TextFormat("player 1 :%i", player2_score), swidth / 4 - 95, 20, 50, WHITE);    // text x y font size color
       DrawText(TextFormat("player 2: %i", player1_score),835 , 20, 50, WHITE);                  // text x y font size color
 
-      DrawText( "ROUND ",swidth/2-25 , sheight /2-70, 20, WHITE);
+      DrawText( "ROUND ",swidth/2-25 , sheight /2-70, 20, roun);
 
-       DrawText(TextFormat("%i",b.rounds()) ,swidth/2-25 , sheight /2-50, 100, WHITE);  
+       DrawText(TextFormat("%i",b.rounds()) ,swidth/2-25 , sheight /2-50, 100, roun);  
 
     EndDrawing();
 
