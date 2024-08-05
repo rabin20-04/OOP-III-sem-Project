@@ -8,6 +8,8 @@
 Color lightBlue = Color{173, 216, 230, 255};    // Light Blue with full opacity
 Color mediumDarkBlue = Color{0, 102, 204, 255}; // Medium Dark Blue with full opacity
 Color lighterBlue = Color{192, 230, 242, 255};  // Slightly Lighter Blue with full opacity
+Color blue2 = Color{0, 0, 180, 255};  // Slightly bluer light blue with full opacity
+
 using namespace std;
 int player_score = 0;
 int cpu_score = 0;
@@ -275,7 +277,9 @@ int main()
 
             DrawRectangle(screenWidth / 2, 0, 2, screenHeight, BLACK);   // x y width height color
             DrawRectangle(0, 0, screenWidth / 2, screenHeight, BLUE);    // x y width height color
-            DrawCircle(screenWidth / 2, screenHeight / 2, 150, SKYBLUE); // x y radius color
+            DrawCircle(screenWidth / 2, screenHeight / 2, 150, blue2); // x y radius color
+                        DrawCircle(screenWidth / 2, screenHeight / 2, 151, WHITE); // x y radius color
+
             ball.move();
             // remember that the coordinate system in raylib starts from the top left corner of the screen updown :y side: x
             player.move();
