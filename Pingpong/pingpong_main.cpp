@@ -139,6 +139,8 @@ public:
     void animation(int temhighscore, int new_highscore, int &player_score,int &life)
     {
         Sound celebration = LoadSound("resources/celebration.mp3");
+            Font font = LoadFont("RonysiswadiArchitect4-qZmp2.ttf");
+
 
         int screenWidth = 1280;
         int screenHeight = 720;
@@ -170,7 +172,7 @@ public:
 
             // Draw
             BeginDrawing();
-            ClearBackground(mediumDarkBlue);
+            ClearBackground(lightBlue);
 
             for (const auto &ball : balls)
             {
@@ -178,9 +180,18 @@ public:
             }
 DrawText("Congratulations! You have gain the highscore", screenWidth / 6, screenHeight / 2, 45, BLACK); // text x y font size color
             DrawText(TextFormat("Previous record:%i", temhighscore), screenWidth / 6, 460, 45, BLACK); // text x y font size color
-            DrawText(TextFormat("New Record:%i", new_highscore), screenWidth / 6, 560, 45, BLACK);// text x y font size color
-            DrawText("Press ENTER to continue ,ESC to exit the game", screenWidth / 6, 600, 30, BLACK); // text x y font size color
+        DrawTextEx(font, TextFormat("New Record: %i", new_highscore), (Vector2){ screenWidth / 6.0f, 560 }, 45, 2, BLACK);  // this dhow 
+                  DrawText("Press ENTER to continue ,ESC to exit the game", screenWidth / 6, 620, 30, BLACK); // text x y font size color
             EndDrawing();
+            if (IsKeyPressed(KEY_ENTER))
+            {
+                UnloadSound(celebration);
+                player_score = 0;
+                life = 2;
+                break;
+            }
+            UnloadFont(font);
+
             
             
         }
@@ -247,6 +258,8 @@ int main()
 
     // loading of the sound
     Sound strike = LoadSound("resources/strike.wav");
+    Font font = LoadFont("sujan.ttf");
+
     while(!WindowShouldClose())
     {
 
@@ -263,10 +276,16 @@ int main()
 
         BeginDrawing(); // this function creates a blankcanvas so that we can starting drawinng
 
-        ClearBackground(SKYBLUE); // this function will clear the background of the canvas and set it to black
+        ClearBackground(mediumDarkBlue); // this function will clear the background of the canvas and set it to black
 
-        DrawRectangle(screenWidth / 2, 0, 2, screenHeight, WHITE);   // x y width height color
-        DrawCircle(screenWidth / 2, screenHeight / 2, 90, lighterBlue); // x y radius color
+          // slide  and middle lines for the game interface
+        DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, BLACK);  // x1 y1 x2 y2 color
+        DrawLine(2, 2, screenWidth, 2, BLACK);                               // x1 y1 x2 y2 color
+        DrawLine(0, screenHeight - 2, screenWidth, screenHeight - 2, BLACK); // x1 y1 x2 y2 color
+
+        DrawRectangle(screenWidth / 2, 0, 2, screenHeight, BLACK);   // x y width height color
+        DrawRectangle(0, 0, screenWidth/2, screenHeight, BLUE);                   // x y width height color
+        DrawCircle(screenWidth / 2, screenHeight / 2, 150, SKYBLUE); // x y radius color
         ball.move();
         // remember that the coordinate system in raylib starts from the top left corner of the screen updown :y side: x
         player.move();
@@ -284,10 +303,7 @@ int main()
             PlaySound(strike);
         }
 
-        // slide  and middle lines for the game interface
-        DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, BLACK);  // x1 y1 x2 y2 color
-        DrawLine(2, 2, screenWidth, 2, BLACK);                               // x1 y1 x2 y2 color
-        DrawLine(0, screenHeight - 2, screenWidth, screenHeight - 2, BLACK); // x1 y1 x2 y2 color
+      
 
         ball.Draw();
         player.Draw();
@@ -330,6 +346,7 @@ EndDrawing(); // this function will end the drawing and display the canva
         if (player_score > temhighscore)
         {
             aniball.animation(temhighscore, highscore,player_score,life);
+break;
 
 
             EndDrawing();
