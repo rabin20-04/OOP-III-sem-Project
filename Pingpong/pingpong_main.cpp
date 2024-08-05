@@ -6,6 +6,8 @@
 #include <vector>
 
 Color lightBlue = Color{173, 216, 230, 255}; // Light Blue with full opacity
+Color mediumDarkBlue = Color{0, 102, 204, 255}; // Medium Dark Blue with full opacity
+Color lighterBlue = Color{192, 230, 242, 255}; // Slightly Lighter Blue with full opacity
 using namespace std;
 int player_score = 0;
 int cpu_score = 0;
@@ -27,8 +29,8 @@ public:
     {
         x += speed_x;
         y += speed_y;
-        Sound lose = LoadSound("resources/lose.wav");
-        Sound win = LoadSound("resources/win.wav");
+        static Sound lose = LoadSound("resources/lose.wav");
+        static Sound win = LoadSound("resources/win.wav");
 
         if (y + radius >= GetScreenHeight() || y - radius <= 0)
         {                  // checking if the ball touch the bottom or top of the screen
@@ -134,7 +136,7 @@ public:
     float radius;
     Color color;
     float speed;
-    void animation(int temhighscore, int new_highscore)
+    void animation(int temhighscore, int new_highscore, int &player_score,int &life)
     {
         Sound celebration = LoadSound("resources/celebration.mp3");
 
@@ -168,18 +170,21 @@ public:
 
             // Draw
             BeginDrawing();
-            ClearBackground(lightBlue);
+            ClearBackground(mediumDarkBlue);
 
             for (const auto &ball : balls)
             {
                 DrawCircleV(ball.position, ball.radius, ball.color);
             }
 DrawText("Congratulations! You have gain the highscore", screenWidth / 6, screenHeight / 2, 45, BLACK); // text x y font size color
-            DrawText(TextFormat("Previous record:%i", temhighscore), screenWidth / 6, 460, 45, BLACK);              // text x y font size color
-            DrawText(TextFormat("New Record:%i", new_highscore), screenWidth / 6, 560, 45, BLACK);                  // text x y font size color
-
+            DrawText(TextFormat("Previous record:%i", temhighscore), screenWidth / 6, 460, 45, BLACK); // text x y font size color
+            DrawText(TextFormat("New Record:%i", new_highscore), screenWidth / 6, 560, 45, BLACK);// text x y font size color
+            DrawText("Press ENTER to continue ,ESC to exit the game", screenWidth / 6, 600, 30, BLACK); // text x y font size color
             EndDrawing();
+            
+            
         }
+        
     }
 };
 
@@ -242,6 +247,10 @@ int main()
 
     // loading of the sound
     Sound strike = LoadSound("resources/strike.wav");
+    while(!WindowShouldClose())
+    {
+
+    
 
     while (!WindowShouldClose()) // this function will return true if the window is closed
 
@@ -256,8 +265,8 @@ int main()
 
         ClearBackground(SKYBLUE); // this function will clear the background of the canvas and set it to black
 
-        DrawRectangle(screenWidth / 2, 0, 2, screenHeight, BLACK);   // x y width height color
-        DrawCircle(screenWidth / 2, screenHeight / 2, 90, lightBlue); // x y radius color
+        DrawRectangle(screenWidth / 2, 0, 2, screenHeight, WHITE);   // x y width height color
+        DrawCircle(screenWidth / 2, screenHeight / 2, 90, lighterBlue); // x y radius color
         ball.move();
         // remember that the coordinate system in raylib starts from the top left corner of the screen updown :y side: x
         player.move();
@@ -320,17 +329,25 @@ EndDrawing(); // this function will end the drawing and display the canva
         ClearBackground(lightBlue);
         if (player_score > temhighscore)
         {
-            aniball.animation(temhighscore, highscore);
-            break;
+            aniball.animation(temhighscore, highscore,player_score,life);
+
 
             EndDrawing();
         }
         else
         {
             DrawText("Game Over ", screenWidth / 6, screenHeight / 2, 60, BLACK);
-            DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 560, 60, BLACK);
+            DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 500, 60, BLACK);
+            DrawText("Press ENTER to play ESC to exit", screenWidth / 6, 600, 40, BLACK);
             EndDrawing();
+            if (IsKeyPressed(KEY_ENTER))
+            {
+                player_score = 0;
+                life = 2;
+                break;
+            }
         }
+    }
     }
     CloseAudioDevice();
 
