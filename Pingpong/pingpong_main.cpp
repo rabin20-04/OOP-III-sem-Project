@@ -5,9 +5,9 @@
 #include <string.h>
 #include <vector>
 
-Color lightBlue = Color{173, 216, 230, 255}; // Light Blue with full opacity
+Color lightBlue = Color{173, 216, 230, 255};    // Light Blue with full opacity
 Color mediumDarkBlue = Color{0, 102, 204, 255}; // Medium Dark Blue with full opacity
-Color lighterBlue = Color{192, 230, 242, 255}; // Slightly Lighter Blue with full opacity
+Color lighterBlue = Color{192, 230, 242, 255};  // Slightly Lighter Blue with full opacity
 using namespace std;
 int player_score = 0;
 int cpu_score = 0;
@@ -136,11 +136,9 @@ public:
     float radius;
     Color color;
     float speed;
-    void animation(int temhighscore, int new_highscore, int &player_score,int &life)
+    void animation(int temhighscore, int new_highscore, int &player_score, int &life)
     {
         Sound celebration = LoadSound("resources/celebration.mp3");
-            Font font = LoadFont("RonysiswadiArchitect4-qZmp2.ttf");
-
 
         int screenWidth = 1280;
         int screenHeight = 720;
@@ -178,10 +176,10 @@ public:
             {
                 DrawCircleV(ball.position, ball.radius, ball.color);
             }
-DrawText("Congratulations! You have gain the highscore", screenWidth / 6, screenHeight / 2, 45, BLACK); // text x y font size color
-            DrawText(TextFormat("Previous record:%i", temhighscore), screenWidth / 6, 460, 45, BLACK); // text x y font size color
-        DrawTextEx(font, TextFormat("New Record: %i", new_highscore), (Vector2){ screenWidth / 6.0f, 560 }, 45, 2, BLACK);  // this dhow 
-                  DrawText("Press ENTER to continue ,ESC to exit the game", screenWidth / 6, 620, 30, BLACK); // text x y font size color
+            DrawText("Congratulations! You have gain the highscore", screenWidth / 6, screenHeight / 2, 45, BLACK); // text x y font size color
+            DrawText(TextFormat("Previous record:%i", temhighscore), screenWidth / 6, 460, 45, BLACK);              // text x y font size color
+            DrawText(TextFormat("New Record:%i", new_highscore), screenWidth / 6, 560, 45, BLACK);                  // text x y font size color
+            DrawText("Press ENTER to continue ,ESC to exit the game", screenWidth / 6, 620, 30, BLACK);             // text x y font size color
             EndDrawing();
             if (IsKeyPressed(KEY_ENTER))
             {
@@ -190,12 +188,7 @@ DrawText("Congratulations! You have gain the highscore", screenWidth / 6, screen
                 life = 2;
                 break;
             }
-            UnloadFont(font);
-
-            
-            
         }
-        
     }
 };
 
@@ -258,113 +251,110 @@ int main()
 
     // loading of the sound
     Sound strike = LoadSound("resources/strike.wav");
-    Font font = LoadFont("sujan.ttf");
-
-    while(!WindowShouldClose())
-    {
-
-    
-
-    while (!WindowShouldClose()) // this function will return true if the window is closed
-
-    {
-
-        if (life == 0)
-        {
-            break;
-        }
-
-        BeginDrawing(); // this function creates a blankcanvas so that we can starting drawinng
-
-        ClearBackground(mediumDarkBlue); // this function will clear the background of the canvas and set it to black
-
-          // slide  and middle lines for the game interface
-        DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, BLACK);  // x1 y1 x2 y2 color
-        DrawLine(2, 2, screenWidth, 2, BLACK);                               // x1 y1 x2 y2 color
-        DrawLine(0, screenHeight - 2, screenWidth, screenHeight - 2, BLACK); // x1 y1 x2 y2 color
-
-        DrawRectangle(screenWidth / 2, 0, 2, screenHeight, BLACK);   // x y width height color
-        DrawRectangle(0, 0, screenWidth/2, screenHeight, BLUE);                   // x y width height color
-        DrawCircle(screenWidth / 2, screenHeight / 2, 150, SKYBLUE); // x y radius color
-        ball.move();
-        // remember that the coordinate system in raylib starts from the top left corner of the screen updown :y side: x
-        player.move();
-        cpu.move(ball.y);
-
-        // check for the colloision between the ball and the player
-        if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{player.x, player.y, player.width, player.height}))
-        {
-            ball.speed_x *= -1;
-            PlaySound(strike);
-        }
-        if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height}))
-        {
-            ball.speed_x *= -1;
-            PlaySound(strike);
-        }
-
-      
-
-        ball.Draw();
-        player.Draw();
-        cpu.Draw();
-        DrawText(TextFormat("YOU:%i", player_score), 900, 20, 50, BLACK);                  // text x y font size color
-        DrawText(TextFormat("HighScore:%i", highscore), screenWidth - 190, 20, 30, BLACK); // text x y font size color
-        if (newcpu_score != cpu_score)
-        {
-            life = life - 1;
-            cpu_score = newcpu_score;
-        }
-
-        DrawText(TextFormat("Life:%i", life), screenWidth - 190, 50, 30, BLACK);
-
-EndDrawing(); // this function will end the drawing and display the canva
-
-        if (player_score > highscore)
-        {
-            highscore = player_score;
-            // Open the file in write mode
-            ofstream file("highscore.txt", ios::out | ios::trunc);
-            if (file.is_open())
-            {
-                // Write the updated high score
-                file << highscore;
-                file.close();
-            }
-            else
-            {
-                // Handle error if file cannot be opened
-                cerr << "Unable to open file for writing." << endl;
-            }
-        }
-    }
 
     while (!WindowShouldClose())
     {
-        BeginDrawing();
-        ClearBackground(lightBlue);
-        if (player_score > temhighscore)
-        {
-            aniball.animation(temhighscore, highscore,player_score,life);
-break;
 
+        while (!WindowShouldClose()) // this function will return true if the window is closed
 
-            EndDrawing();
-        }
-        else
         {
-            DrawText("Game Over ", screenWidth / 6, screenHeight / 2, 60, BLACK);
-            DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 500, 60, BLACK);
-            DrawText("Press ENTER to play ESC to exit", screenWidth / 6, 600, 40, BLACK);
-            EndDrawing();
-            if (IsKeyPressed(KEY_ENTER))
+
+            if (life == 0)
             {
-                player_score = 0;
-                life = 2;
                 break;
             }
+
+            BeginDrawing(); // this function creates a blankcanvas so that we can starting drawinng
+
+            ClearBackground(mediumDarkBlue); // this function will clear the background of the canvas and set it to black
+
+            // slide  and middle lines for the game interface
+            DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, BLACK);  // x1 y1 x2 y2 color
+            DrawLine(2, 2, screenWidth, 2, BLACK);                               // x1 y1 x2 y2 color
+            DrawLine(0, screenHeight - 2, screenWidth, screenHeight - 2, BLACK); // x1 y1 x2 y2 color
+
+            DrawRectangle(screenWidth / 2, 0, 2, screenHeight, BLACK);   // x y width height color
+            DrawRectangle(0, 0, screenWidth / 2, screenHeight, BLUE);    // x y width height color
+            DrawCircle(screenWidth / 2, screenHeight / 2, 150, SKYBLUE); // x y radius color
+            ball.move();
+            // remember that the coordinate system in raylib starts from the top left corner of the screen updown :y side: x
+            player.move();
+            cpu.move(ball.y);
+
+            // check for the colloision between the ball and the player
+            if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{player.x, player.y, player.width, player.height}))
+            {
+                ball.speed_x *= -1;
+                PlaySound(strike);
+            }
+            if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height}))
+            {
+                ball.speed_x *= -1;
+                PlaySound(strike);
+            }
+
+            ball.Draw();
+            player.Draw();
+            cpu.Draw();
+            DrawText(TextFormat("YOU:%i", player_score), 900, 20, 50, BLACK); // text x y font size color
+            DrawText(TextFormat("CPU"), 300, 20, 50, BLACK); // text x y font size color
+            DrawText(TextFormat("Enter ESC key to exit at any time"), 5, 5,20, BLACK); // text x y font size color
+
+            DrawText(TextFormat("HighScore:%i", highscore), screenWidth - 190, 20, 30, BLACK); // text x y font size color
+            if (newcpu_score != cpu_score)
+            {
+                life = life - 1;
+                cpu_score = newcpu_score;
+            }
+
+            DrawText(TextFormat("Life:%i", life), screenWidth - 190, 50, 30, BLACK);
+
+            EndDrawing(); // this function will end the drawing and display the canva
+
+            if (player_score > highscore)
+            {
+                highscore = player_score;
+                // Open the file in write mode
+                ofstream file("highscore.txt", ios::out | ios::trunc);
+                if (file.is_open())
+                {
+                    // Write the updated high score
+                    file << highscore;
+                    file.close();
+                }
+                else
+                {
+                    // Handle error if file cannot be opened
+                    cerr << "Unable to open file for writing." << endl;
+                }
+            }
         }
-    }
+
+        while (!WindowShouldClose())
+        {
+            BeginDrawing();
+            ClearBackground(lightBlue);
+            if (player_score > temhighscore)
+            {
+                aniball.animation(temhighscore, highscore, player_score, life);
+                break;
+
+                EndDrawing();
+            }
+            else
+            {
+                DrawText("Game Over ", screenWidth / 6, screenHeight / 2, 60, BLACK);
+                DrawText(TextFormat("Your Score: %i", player_score), screenWidth / 6, 500, 60, BLACK);
+                DrawText("Press ENTER to play ESC to exit", screenWidth / 6, 600, 40, BLACK);
+                EndDrawing();
+                if (IsKeyPressed(KEY_ENTER))
+                {
+                    player_score = 0;
+                    life = 2;
+                    break;
+                }
+            }
+        }
     }
     CloseAudioDevice();
 
