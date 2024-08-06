@@ -1,15 +1,46 @@
-<h1>Shrelok C++ Project - Third Semester</h1>
-<span style="font-size: 32px; font-weight: bold;">W</span>elcome to the Shrelok C++ Project repository. This project is part of our coursework for the third semester and focuses on advanced C++ programming concepts. Our team, Shrelok, has developed a series of solutions and applications to demonstrate our understanding and skills in C++.
 
 
-<h1>Project Overview</h1>
-This repository contains the code and documentation for our third-semester C++ project. The project covers a variety of topics, including object-oriented programming, data structures, algorithms, and file handling.
 
-<h1>Getting Started</h1>
+#   Ping Pong Game - C++ 
 
-To get started with this project, clone the repository to your local machine using the following command:
+A multiplayer and bot Ping Pong game developed using C++ and the Raylib library.
 
+## Features
+
+- Single-player mode against a CPU opponent
+- Realistic ball physics and collision detection
+- Player and CPU scoring system
+- Smooth gameplay with intuitive controls
+
+## Controls
+
+- Move Paddle Up: `W`
+- Move Paddle Down: `S`
+
+## Installation
+
+1. Ensure you have Raylib installed. Follow the instructions at [Raylib Installation Guide](https://github.com/raysan5/raylib#installation).
+2. Clone the repository or download the source code.
+
+```bash
+git clone https://github.com/rabin20-04/III---Ping-Pong.git
 ```
-git clone https://github.com/rabin20-04/Sherlock.git
 
+3. Compile the game using your preferred C++ compiler.
+
+```bash
+g++ -o ping_pong main.cpp -lraylib
 ```
+
+4. Run the game.
+
+```bash
+./ping_pong
+```
+
+## Code Structure
+
+- `ball` class: Manages the ball's movement, drawing, and collision logic.
+- `paddle` class: Manages the player and CPU paddle movements and drawing.
+- `cpu` class: Inherits from `paddle` and controls the CPU paddle behavior.
+
