@@ -14,8 +14,8 @@ A multiplayer and bot Ping Pong game developed using C++ and the Raylib library.
 
 ## Controls
 
-- Move Paddle Up: `W`
-- Move Paddle Down: `S`
+- Move Paddle Up: `W` 'Upkey'
+- Move Paddle Down: `S` 'DownKey'
 
 ## Installation
 
