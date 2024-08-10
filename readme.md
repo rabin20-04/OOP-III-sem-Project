@@ -29,7 +29,7 @@ git clone https://github.com/rabin20-04/III---Ping-Pong.git
 3. Compile the game using your preferred C++ compiler.
 
 ```bash
-g++ -o ping_pong main.cpp -lraylib
+g++ -o ping_pong pingpong_main.cpp -lraylib
 ```
 
 4. Run the game.
