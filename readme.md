@@ -47,5 +47,5 @@ g++ -o ping_pong pingpong_main.cpp -lraylib
 - <hr>
 
 - ## View Demo [Click here](https://www.linkedin.com/feed/update/urn:li:activity:7227670678164938752/)
-  
-<hr>
+-
+- <hr>
