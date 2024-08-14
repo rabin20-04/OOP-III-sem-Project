@@ -44,6 +44,6 @@ g++ -o ping_pong pingpong_main.cpp -lraylib
 - `paddle` class: Manages the player and CPU paddle movements and drawing.
 - `cpu` class: Inherits from `paddle` and controls the CPU paddle behavior.
 
-- ## [View Demo](https://www.linkedin.com/feed/update/urn:li:activity:7227670678164938752/)
+- ## View Demo [Click here](https://www.linkedin.com/feed/update/urn:li:activity:7227670678164938752/)
 -  
 
