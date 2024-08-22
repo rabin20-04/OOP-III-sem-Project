@@ -4,7 +4,7 @@
 #   Ping Pong Game - C++     
 
 
-A multiplayer and bot Ping Pong game developed using C++ and the Raylib library.   [Demo](https://www.linkedin.com/feed/update/urn:li:activity:7227670678164938752/)
+A multiplayer and bot Ping Pong game developed using C++ and the Raylib library.   [Demo](https://www.linkedin.com/feed/update/urn:li:activity:7227672845567328256/)
 
 ## Features
 
@@ -47,5 +47,5 @@ g++ -o ping_pong pingpong_main.cpp -lraylib
 - 
   
 
-  ## View Demo [Click here](https://www.linkedin.com/feed/update/urn:li:activity:7227670678164938752/)
+  ## View Demo [Click here](https://www.linkedin.com/feed/update/urn:li:activity:7227672845567328256/)
 
